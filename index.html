@@ -312,3 +312,177 @@
   </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet Simulator 🐾</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .pet {
+      font-size: 100px;
+      margin: 20px 0;
+      transition: transform 0.3s;
+    }
+
+    .stats {
+      margin: 20px auto;
+      width: 60%;
+    }
+
+    .bar {
+      background: #eee;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .fill {
+      height: 20px;
+      text-align: right;
+      padding-right: 5px;
+      color: white;
+      font-size: 12px;
+    }
+
+    .hunger { background: #ff6b6b; }
+    .energy { background: #4ecdc4; }
+    .happiness { background: #ffe66d; color: #333; }
+
+    .buttons {
+      margin: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 8px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform 0.2s, background 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #ddd;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .log {
+      margin-top: 20px;
+      padding: 10px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 10px;
+      height: 120px;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐕 Your Pet Simulator 🐾</h1>
+
+  <div class="pet" id="pet">🐶</div>
+
+  <div class="stats">
+    <div class="bar"><div id="hunger" class="fill hunger" style="width:30%">30%</div></div>
+    <div class="bar"><div id="energy" class="fill energy" style="width:70%">70%</div></div>
+    <div class="bar"><div id="happiness" class="fill happiness" style="width:70%">70%</div></div>
+  </div>
+
+  <div class="buttons">
+    <button onclick="feed()">🍖 Feed</button>
+    <button onclick="play()">🎾 Play</button>
+    <button onclick="sleep()">💤 Sleep</button>
+    <button onclick="bathe()">🛁 Bathe</button>
+    <button onclick="skip()">⏭ Skip Time</button>
+  </div>
+
+  <div class="log" id="log">
+    <p>Welcome to Pet Simulator!</p>
+  </div>
+
+  <script>
+    let hunger = 30;
+    let energy = 70;
+    let happiness = 70;
+
+    function updateStats() {
+      document.getElementById("hunger").style.width = hunger + "%";
+      document.getElementById("hunger").textContent = hunger + "%";
+      document.getElementById("energy").style.width = energy + "%";
+      document.getElementById("energy").textContent = energy + "%";
+      document.getElementById("happiness").style.width = happiness + "%";
+      document.getElementById("happiness").textContent = happiness + "%";
+
+      let pet = document.getElementById("pet");
+      if (happiness > 60 && energy > 40) pet.textContent = "🐶";
+      else if (hunger > 70) pet.textContent = "😩";
+      else if (energy < 20) pet.textContent = "😴";
+      else pet.textContent = "😐";
+    }
+
+    function logAction(msg) {
+      let log = document.getElementById("log");
+      log.innerHTML += "<p>" + msg + "</p>";
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function feed() {
+      hunger = Math.max(0, hunger - 30);
+      energy = Math.min(100, energy + 10);
+      happiness = Math.min(100, happiness + 10);
+      updateStats();
+      logAction("🍖 You fed your pet! Hunger decreased.");
+    }
+
+    function play() {
+      energy = Math.max(0, energy - 20);
+      happiness = Math.min(100, happiness + 20);
+      hunger = Math.min(100, hunger + 20);
+      updateStats();
+      logAction("🎾 You played with your pet! Happiness increased.");
+    }
+
+    function sleep() {
+      energy = Math.min(100, energy + 20);
+      hunger = Math.min(100, hunger + 10);
+      updateStats();
+      logAction("💤 Your pet took a nap! Energy restored.");
+    }
+
+    function bathe() {
+      happiness = Math.max(0, happiness - 5);
+      energy = Math.max(0, energy - 5);
+      updateStats();
+      logAction("🛁 You bathed your pet. Fresh and clean!");
+    }
+
+    function skip() {
+      hunger = Math.min(100, hunger + 10);
+      energy = Math.max(0, energy - 10);
+      updateStats();
+      logAction("⏭ Time skipped... stats changed.");
+    }
+
+    updateStats();
+  </script>
+</body>
+</html>
+
